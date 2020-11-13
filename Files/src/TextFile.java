@@ -1,6 +1,9 @@
 import java.io.*;
 import java.nio.file.Files;
 
+//Создать объект класса Текстовый файл, используя классы Файл, Директория.
+//Методы: создать, переименовать, вывести на консоль содержимое, дополнить, удалить.
+
 public class TextFile extends File {
     private java.io.File file;
     java.io.File folder;
