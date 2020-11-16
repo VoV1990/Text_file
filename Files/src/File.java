@@ -5,7 +5,7 @@ public abstract class File {
 
     }
 
-    public void renameFile() throws IOException {
+    public void renameFile() throws IOException, IllegalFormat {
     }
 
     public void printFile() throws IOException {

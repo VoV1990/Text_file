@@ -1,5 +1,9 @@
 import java.io.*;
 import java.nio.file.Files;
+import java.util.IllegalFormatException;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //Создать объект класса Текстовый файл, используя классы Файл, Директория.
 //Методы: создать, переименовать, вывести на консоль содержимое, дополнить, удалить.
@@ -13,8 +17,15 @@ public class TextFile extends File {
 
     }
 
-    public TextFile(String fileName) throws IOException {
-        createFile(fileName);
+    public TextFile(String fileName) throws IOException, IllegalFormat {
+        if(validateForTxt(fileName)) createFile(fileName);
+        else throw new IllegalFormat("It's not txt file name.");
+    }
+
+    private boolean validateForTxt(String filename) {
+        Pattern pattern = Pattern.compile("\\w+\\.txt");
+        Matcher matcher = pattern.matcher(filename);
+        return matcher.matches();
     }
 
     @Override
@@ -35,13 +46,15 @@ public class TextFile extends File {
     }
 
     @Override
-    public void renameFile() throws IOException {
+    public void renameFile() throws IOException, IllegalFormat {
         reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter the new file name:");
         String newFileName = reader.readLine();
-        Files.move(file.toPath(), file.toPath().resolveSibling(newFileName));
-        file = new java.io.File(folder.getPath(), newFileName);
-        System.out.println("File was renamed");
+        if(validateForTxt(newFileName)) {
+            Files.move(file.toPath(), file.toPath().resolveSibling(newFileName));
+            file = new java.io.File(folder.getPath(), newFileName);
+            System.out.println("File was renamed");
+        } else throw new IllegalFormat("It's not txt file name.");
     }
 
     @Override
